@@ -4,6 +4,7 @@ import java.util.*;
 public class Vorlesungsverzeischnis {
 
     String dateiName = "C:/Users/janne/IdeaProjects/Vorlesungsverzeichnis/src/text.txt";
+    String filename = "C:/Users/janne/IdeaProjects/Vorlesungsverzeichnis/src/text.txt";
 
     Set<Vorlesung> Vorlesungen;
 
