@@ -3,6 +3,8 @@ import java.util.*;
 
 public class Vorlesungsverzeischnis {
 
+    String dateiName = "C:/Users/janne/IdeaProjects/Vorlesungsverzeichnis/src/text.txt";
+
     Set<Vorlesung> Vorlesungen;
 
     public static List<List<String>> load(String filename) throws IOException {
@@ -15,6 +17,8 @@ public class Vorlesungsverzeischnis {
     }
     public Vorlesungsverzeischnis(String dateiName) throws TextFileFormatException, IOException{
         this.Vorlesungen = new HashSet<>();
+
+
 
         try (BufferedReader ein = new BufferedReader(new FileReader(dateiName))){
             String zeile;
@@ -68,8 +72,11 @@ public class Vorlesungsverzeischnis {
         return null;
     }
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) throws TextFileFormatException, IOException {
+        Vorlesungsverzeischnis a = new Vorlesungsverzeischnis("text.txt");
+            load(a.dateiName);
     }
 
 

@@ -12,8 +12,11 @@ public class TextFileFormatException extends Exception {
                 break;
             case 3:
                 // Formatfehler
-                System.out.println("in der Tabelle sind Formatfehler");
+                System.out.println("In der Tabelle sind Formatfehler");
                 break;
+            default:
+                // Falscher Fehlercode
+                System.out.println("Falscher Fehlercode");
         }
 
        // System.out.println(error);
