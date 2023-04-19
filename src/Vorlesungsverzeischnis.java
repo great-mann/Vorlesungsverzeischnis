@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.util.*;
 
@@ -22,7 +20,8 @@ public class Vorlesungsverzeischnis {
             String zeile;
             while ((zeile = ein.readLine()) != null){
                 if(zeile.split(":").length != 4){
-                    throw new TextFileFormatException("Anzahl der Parametern zu Groß ");
+                    throw new TextFileFormatException(1);
+                    //throw new TextFileFormatException("Anzahl der Parametern zu Groß ");
                 }
                 String studienGruppe = zeile.split(":")[0];
                 String vorlesungsTitel = zeile.split(":")[1];
@@ -38,11 +37,41 @@ public class Vorlesungsverzeischnis {
         } catch (IOException e) {
             throw e;
         } catch (Exception e) {
-            throw new TextFileFormatException(e.getMessage());
+            throw new TextFileFormatException(3);
         }
 
 
     }
+
+    public List<String> titles() {
+        return null;
+    }
+
+    public Set<String> workaholics() {
+
+        return null;
+    }
+
+    public Map<String, List<String>> groupToTitles() {
+
+        return null;
+    }
+
+    public Map<String, List<String>> multipleTitles() {
+
+        return null;
+    }
+
+
+    public List<String> descendingTitles() {
+
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+    }
+
 
 
 }
