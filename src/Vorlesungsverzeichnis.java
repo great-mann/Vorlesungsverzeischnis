@@ -1,12 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-public class Vorlesungsverzeischnis {
+public class Vorlesungsverzeichnis {
 
     String dateiName = "C:/Users/janne/IdeaProjects/Vorlesungsverzeichnis/src/text.txt";
     String filename = "C:/Users/janne/IdeaProjects/Vorlesungsverzeichnis/src/text.txt";
 
-    Set<Vorlesung> Vorlesungen;
+    Set<Vorlesung> file = new HashSet<>();
+    List<List<String>> tmp = new ArrayList<List<String>>();
+
 
     public static List<List<String>> load(String filename) throws IOException {
         List<List<String>> result = new ArrayList<List<String>>();
@@ -16,12 +18,18 @@ public class Vorlesungsverzeischnis {
         br.close();
         return result;
     }
-    public Vorlesungsverzeischnis(String dateiName) throws TextFileFormatException, IOException{
-        this.Vorlesungen = new HashSet<>();
+    public Vorlesungsverzeichnis(String fileName) throws TextFileFormatException, IOException{
+        this.filename = fileName;
+        this.tmp = load(this.filename);
+        for (int i = 0; i < this.tmp.size(); i++) {
+            //for (int j = 0; j < 5; j++) {
+            //this.file.add((Vorlesung) this.tmp.indexOf(i));
+            String s = this.tmp.get(i).toString();
+            this.file.add(new Vorlesung(s));
+            //}
+        }
 
-
-
-        try (BufferedReader ein = new BufferedReader(new FileReader(dateiName))){
+        /*try (BufferedReader ein = new BufferedReader(new FileReader(dateiName))){
             String zeile;
             while ((zeile = ein.readLine()) != null){
                 if(zeile.split(":").length != 4){
@@ -44,7 +52,7 @@ public class Vorlesungsverzeischnis {
         } catch (Exception e) {
             throw new TextFileFormatException(3);
         }
-
+*/
 
     }
 
@@ -76,8 +84,11 @@ public class Vorlesungsverzeischnis {
 
 
     public static void main(String[] args) throws TextFileFormatException, IOException {
-        Vorlesungsverzeischnis a = new Vorlesungsverzeischnis("text.txt");
-            load(a.dateiName);
+        Vorlesungsverzeichnis a = new Vorlesungsverzeichnis("text.txt");
+        //System.out.println(a.tmp.get(1).get(2));
+        //System.out.println(a.tmp.get(1).toString());
+        //System.out.println(a.file.toArray()[0]);
+        System.out.println(a.file.toString());
     }
 
 
