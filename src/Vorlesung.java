@@ -1,3 +1,4 @@
+//TODO Completly done
 public class Vorlesung {
     private String bereich, vorlesung, dozent, anzahl;
 
@@ -7,26 +8,14 @@ public class Vorlesung {
 
 
     public Vorlesung(String stringOfFour) {
-        String tmp = stringOfFour;
-        String a = "";
-        for(int i = 0; i < stringOfFour.length(); i++) {
-            // TODO Regrex for String tmp => stringOfFour.replaceAll ...
-            if (tmp.charAt(i) != '[' && tmp.charAt(i) != ']') {
-                a += tmp.charAt(i);
-            }
-        }
+        stringOfFour.replaceAll("\\[|\\]", ""); // deletes all "[" and "]"
+        String[] split = stringOfFour.split("\\, |\\,");  // cuts the String in four parts ", " and ","
 
-        String[] split = stringOfFour.split(",");
-
+        // Saves all as an arraylike
         this.bereich = split[0];
         this.vorlesung = split[1];
         this.dozent = split[2];
         this.anzahl = split[3];
-        /*String bereich, String vorlesung, String dozent, String anzahl
-        this.bereich = bereich;
-        this.vorlesung = vorlesung;
-        this.dozent = dozent;
-        this.anzahl = anzahl;*/
     }
 
 
