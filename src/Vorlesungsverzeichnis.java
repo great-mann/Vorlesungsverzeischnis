@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Vorlesungsverzeichnis {
@@ -25,12 +26,12 @@ public class Vorlesungsverzeichnis {
             String s = this.tmp.get(i).toString();
             this.file.add(new Vorlesung(s));
         }
+
     }
 
-    public List<String> titles() { // Almost Done
-        String[][] end = new String[file.size()][2];  // end[0][0] => Vorlesung end[0][1] => complete String
+    public List<String> titles() { // TODO verkürzen .indexof
         String[] tmp = file.toString().replaceAll("\\[|\\]", "").split(", |,");
-        ArrayList a = new ArrayList<>();
+        ArrayList a = new ArrayList();
         String vorlesung = "";
 
         for(int i = 0; i < file.size(); i++) {
@@ -45,25 +46,45 @@ public class Vorlesungsverzeichnis {
                     break;
                 }
             }
-            end[i][0] = vorlesung;
-            end[i][1] = tmp[i];
+            if(a.contains(vorlesung) == false){
+                a.add(vorlesung);
+            }
             vorlesung = "";
         }
-        for(int i = 0; i < file.size(); i++) {
-            for(int j = 0; j < 2; j++) {
-                System.out.println(end[i][j]);
-            }
-            a.add(end[i][0] + ";" + end[i][1]);
-        }
-        // TODO in a sind jetzt noch immer am anfang die vorlesungsnamen, die müssen nach dem sortieren wieder deleted werden
         Collections.sort(a);
-        System.out.println(a);
-        return null;
+        return a;
     }
 
-    public Set<String> workaholics() {
+    public Set<String> workaholics() { // TODO Done
+        String[] tmp = file.toString().replaceAll("\\[|\\]", "").split(", |,");
+        Set<String> end = new HashSet();
+        int leftB, rightB;
+        String dozent = "", duplicate = "";
 
-        return null;
+        for(int i = 0; i < tmp.length; i++) {
+
+            leftB = tmp[i].indexOf(":", tmp[i].indexOf(":") + 1) + 1;
+            rightB =tmp[i].indexOf(":", (tmp[i].indexOf(":", leftB + 1)));
+            for(int j = leftB; j < rightB; j++) {
+                dozent += tmp[i].charAt(j);
+            }
+            // Duplicate
+            for (int j = i + 1; j < tmp.length; j++) {
+                leftB = tmp[j].indexOf(":", tmp[j].indexOf(":") + 1) + 1;
+                rightB =tmp[j].indexOf(":", (tmp[j].indexOf(":", leftB + 1)));
+                for(int k = leftB; k < rightB; k++) {
+                    duplicate += tmp[j].charAt(k);
+                }
+                if(dozent.equals(duplicate)) {
+                    end.add(duplicate);
+                }
+                duplicate = "";
+            }
+
+           // System.out.println(tmp[i] + "  Index"+ leftB + " index" + rightB + " " + charstoString);
+            dozent = "";
+        }
+        return end;
     }
 
     public Map<String, List<String>> groupToTitles() {
@@ -76,25 +97,16 @@ public class Vorlesungsverzeichnis {
         return null;
     }
 
-
     public List<String> descendingTitles() {
 
         return null;
     }
 
-
-
     public static void main(String[] args) throws TextFileFormatException, IOException {
         Vorlesungsverzeichnis a = new Vorlesungsverzeichnis("text.txt");
        // System.out.println(load(a.filename));
-
-
         //System.out.println(a.file.toArray()[0]);
         //System.out.println(a.file.toString());
-        System.out.println(a.titles());
-
+        System.out.println(a.workaholics());
     }
-
-
-
 }

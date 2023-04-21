@@ -1,4 +1,4 @@
-//TODO Completly done
+//TODO almost done
 public class Vorlesung {
     private String bereich, vorlesung, dozent, anzahl;
 
