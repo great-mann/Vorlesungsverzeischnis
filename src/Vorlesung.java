@@ -45,4 +45,7 @@ public class Vorlesung {
     public String getTitel(){
         return this.titel;
     }
+    public String getDozent(){
+        return this.dozent;
+    }
 }

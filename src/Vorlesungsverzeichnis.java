@@ -100,8 +100,20 @@ public class Vorlesungsverzeichnis {
     }
 
     public Map<String, List<String>> multipleTitles() {
+        Map<String, List<String>> erg = new HashMap<>();
+        for(Vorlesung zeile : file){
+            String titel = zeile.getTitel();
+            String dozent = zeile.getDozent();
+            if(!erg.containsKey(titel)){
+                erg.put(titel, new ArrayList<>());
+            }
+            if(erg.get(titel) != null && !erg.get(titel).contains(dozent)){
+                erg.get(titel).add(dozent);
 
-        return null;
+            }
+
+        }
+        return erg;
     }
 
     public List<String> descendingTitles() {
@@ -118,6 +130,8 @@ public class Vorlesungsverzeichnis {
         //System.out.println(a.file.toArray()[0]);
         //System.out.println(a.file.toString());
         System.out.println(a.groupToTitles().toString());
+        System.out.println(a.multipleTitles().toString());
+
 
         //System.out.println(a.workaholics());
         //System.out.println(a.groupToTitles());
