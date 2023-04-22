@@ -14,15 +14,15 @@ public class Vorlesung {
 
         // Saves all as an arraylike
         try {
-            String[] spalten = stringOfFour.split(":");
 
             // Spaltenanzahl zu viel/zu wenig
-            if (spalten.length != 4) {
+            if (split.length != 4) {
                 throw new TextFileFormatException("Spaltenanzahl zu viel/zu wenig");
             }
-            for (int i = 0; i < spalten.length; i++) {
-                if (spalten[i] == "") ;
-                throw new TextFileFormatException("Teile der Spalten haben keinen Inhalt");
+            for (int i = 0; i < split.length; i++) {
+                if (split[i] == "") {
+                    throw new TextFileFormatException("Teile der Spalten haben keinen Inhalt");
+                }
             }
 
 
@@ -34,13 +34,6 @@ public class Vorlesung {
             System.out.println(e.getMessage());
         }
 
-
-
-    }
-    public static void main(String[] args) {
-
-        String userInput = "abcdef";
-        new Vorlesung(userInput);
 
 
     }

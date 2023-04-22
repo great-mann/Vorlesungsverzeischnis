@@ -96,7 +96,7 @@ public class Vorlesungsverzeichnis {
 
 
 
-            return erg;
+        return erg;
     }
 
     public Map<String, List<String>> multipleTitles() {
@@ -114,7 +114,7 @@ public class Vorlesungsverzeichnis {
     public static void main(String[] args) throws TextFileFormatException, IOException {
         Vorlesungsverzeichnis a = new Vorlesungsverzeichnis("text.txt");
         System.out.println(a.titles());
-       // System.out.println(load(a.filename));
+        // System.out.println(load(a.filename));
         //System.out.println(a.file.toArray()[0]);
         //System.out.println(a.file.toString());
         System.out.println(a.groupToTitles().toString());
