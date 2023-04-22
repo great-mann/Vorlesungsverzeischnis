@@ -9,8 +9,8 @@ public class Vorlesung {
     }
 
     public Vorlesung(String stringOfFour) throws TextFileFormatException{
-        stringOfFour.replaceAll("\\[|\\]", ""); // deletes all "[" and "]"
-        String[] split = stringOfFour.split("\\, |\\,");  // cuts the String in four parts ", " and ","
+        String s = stringOfFour.replaceAll("\\[|\\]", "");// deletes all "[" and "]"
+        String[] split = s.split("\\, |\\,");  // cuts the String in four parts ", " and ","
 
         // Saves all as an arraylike
         try {
@@ -31,14 +31,14 @@ public class Vorlesung {
             this.dozent = split[2];
             this.anzahl = split[3];
         } catch (TextFileFormatException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Fehler: " + e);
         }
 
 
 
     }
     public String getBereich(){
-        char klammer = '[';
+
         String s = this.bereich.replaceAll("\\[", "");
         return s;
     }
