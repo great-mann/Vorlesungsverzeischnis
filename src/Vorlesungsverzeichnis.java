@@ -20,39 +20,35 @@ public class Vorlesungsverzeichnis {
     }
     //TODO Done, I think
     public Vorlesungsverzeichnis(String fileName) throws TextFileFormatException, IOException{
-        this.filename = fileName;
-        this.tmp = load(this.filename);
-        for (int i = 0; i < this.tmp.size(); i++) {
-            String s = this.tmp.get(i).toString();
-            this.file.add(new Vorlesung(s));
+
+        try {
+            this.filename = fileName;
+            this.tmp = load(this.filename);
+            for (int i = 0; i < this.tmp.size(); i++) {
+                String s = this.tmp.get(i).toString();
+                this.file.add(new Vorlesung(s));
+            }
+            this.vorlesung = file.toString().replaceAll("\\[|\\]", "").split(", |,");
+
+        } catch(TextFileFormatException e){
+            System.out.println(e.getMessage());
         }
-        this.vorlesung = file.toString().replaceAll("\\[|\\]", "").split(", |,");
+
     }
 
-    public List<String> titles() { // TODO verkürzen .indexof
-        ArrayList a = new ArrayList();
-        String vorlesung = "";
-
-        for(int i = 0; i < file.size(); i++) {
-            for (int j = 0; j < this.vorlesung[i].length(); j++) {
-                if(this.vorlesung[i].charAt(j) == ':') {
-                    for(int k = j; k < this.vorlesung[i].length(); k++) {
-                        vorlesung += this.vorlesung[i].charAt(k + 1);
-                        if (this.vorlesung[i].charAt(k + 2) == ':') {
-                            break;
-                        }
-                    }
-                    break;
-                }
+    public List<String> titles() { //Habe ich ein bisschen schoener gemacht
+        List<String> erg = new ArrayList<String>();
+        for (Vorlesung zeile : file) {
+            String[] spalten = zeile.toString().split(":");
+            String title = spalten[1];
+            if (!erg.contains(title)) {
+                erg.add(title);
             }
-            if(a.contains(vorlesung) == false){
-                a.add(vorlesung);
-            }
-            vorlesung = "";
         }
-        Collections.sort(a);
-        return a;
+        Collections.sort(erg);
+        return erg;
     }
+
 
     public Set<String> workaholics() { // TODO Done
         Set<String> end = new HashSet();
@@ -83,34 +79,41 @@ public class Vorlesungsverzeichnis {
         return end;
     }
 
-    public Map<String, List<String>> groupToTitles() { // TODO Versteh ich nicht
-        Map<String, List<String>> titles = new HashMap<>();
-        int leftB, rightB;
-        List<String> title = new ArrayList();
-        String group = "", t = "";
+    public Map<String, List<String>> groupToTitles() {
+        Map<String, List<String>> erg = new HashMap<>();
+        for(Vorlesung zeile : file){
+            String gruppe = zeile.getBereich();
+            String titel = zeile.getTitel();
+            if(!erg.containsKey(gruppe)){
+                erg.put(gruppe, new ArrayList<>());
+            }
+            if(erg.get(gruppe) != null && !erg.get(gruppe).contains(titel)){
+                erg.get(gruppe).add(titel);
 
-        for(int i = 0; i < vorlesung.length; i++) {
-            rightB = vorlesung[i].indexOf(":");
-            for(int k = 0; k < rightB; k++) {
-                group += vorlesung[i].charAt(k);
             }
-           /* leftB = vorlesung[i].indexOf(":");
-            rightB = vorlesung[i].indexOf(":", vorlesung[i].indexOf(":") + 1);
-            for(int k = 0; k < rightB; k++) {
-                t += vorlesung[i].charAt(k);
-            }
-            title.add(t);
-            System.out.println(group +"   "+ t);
-            titles.put(group, title);
-            t = "";*/
-            group = "";
+
         }
-        return titles;
+
+
+
+        return erg;
     }
 
     public Map<String, List<String>> multipleTitles() {
+        Map<String, List<String>> erg = new HashMap<>();
+        for(Vorlesung zeile : file){
+            String titel = zeile.getTitel();
+            String dozent = zeile.getDozent();
+            if(!erg.containsKey(titel)){
+                erg.put(titel, new ArrayList<>());
+            }
+            if(erg.get(titel) != null && !erg.get(titel).contains(dozent)){
+                erg.get(titel).add(dozent);
 
-        return null;
+            }
+
+        }
+        return erg;
     }
 
     public List<String> descendingTitles() {
@@ -122,11 +125,15 @@ public class Vorlesungsverzeichnis {
 
     public static void main(String[] args) throws TextFileFormatException, IOException {
         Vorlesungsverzeichnis a = new Vorlesungsverzeichnis("text.txt");
-       // System.out.println(load(a.filename));
+        System.out.println(a.titles());
+        // System.out.println(load(a.filename));
         //System.out.println(a.file.toArray()[0]);
         //System.out.println(a.file.toString());
+        System.out.println(a.groupToTitles().toString());
+        System.out.println(a.multipleTitles().toString());
+
 
         //System.out.println(a.workaholics());
-        System.out.println(a.groupToTitles());
+        //System.out.println(a.groupToTitles());
     }
 }
