@@ -1,16 +1,19 @@
-import java.util.List;
+import java.util.Objects;
 
 //TODO almost done
 public class Vorlesung {
-    private String bereich, titel, dozent, anzahl;
+    private final String bereich;
+    private final String titel;
+    private final String dozent;
+    private final String anzahl;
 
     public String toString() {
         return bereich + ":" + titel + ":" + dozent + ":" + anzahl;
     }
 
     public Vorlesung(String stringOfFour) throws TextFileFormatException{
-        String s = stringOfFour.replaceAll("\\[|\\]", "");// deletes all "[" and "]"
-        String[] split = s.split("\\, |\\,");  // cuts the String in four parts ", " and ","
+        String s = stringOfFour.replaceAll("[\\[\\]]", "");// deletes all "[" and "]"
+        String[] split = s.split(", |,");  // cuts the String in four parts ", " and ","
 
         // Saves all as an arraylike
         try {
@@ -19,10 +22,14 @@ public class Vorlesung {
             if (split.length != 4) {
                 throw new TextFileFormatException("Spaltenanzahl zu viel/zu wenig");
             }
-            for (int i = 0; i < split.length; i++) {
-                if (split[i] == "") {
+            for (String value : split) {
+                if (Objects.equals(value, "")) {
                     throw new TextFileFormatException("Teile der Spalten haben keinen Inhalt");
                 }
+                if (!(split[3].matches("\\d+"))) {
+                    throw new TextFileFormatException("Anzahl der Teilnehmer ist kein integer");
+                }
+
             }
 
 
@@ -31,16 +38,14 @@ public class Vorlesung {
             this.dozent = split[2];
             this.anzahl = split[3];
         } catch (TextFileFormatException e) {
-            System.out.println("Fehler: " + e);
-        }
+            throw new TextFileFormatException("Fehler in " + s + ": " + e.getMessage());        }
 
 
 
     }
     public String getBereich(){
 
-        String s = this.bereich.replaceAll("\\[", "");
-        return s;
+        return this.bereich.replaceAll("\\[", "");
     }
     public String getTitel(){
         return this.titel;
