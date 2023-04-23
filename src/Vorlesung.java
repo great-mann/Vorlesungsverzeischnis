@@ -1,5 +1,6 @@
 import java.util.Objects;
-
+//Andres Eisenmann
+//Jannes Müller
 //TODO almost done
 public class Vorlesung {
     private final String bereich;

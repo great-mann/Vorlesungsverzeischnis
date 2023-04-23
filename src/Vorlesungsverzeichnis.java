@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
-
+//Andres Eisenmann
+//Jannes Müller
 
 public class Vorlesungsverzeichnis {
 
