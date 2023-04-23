@@ -11,29 +11,26 @@ public class Vorlesungsverzeichnis {
 
 
     public static List<List<String>> load(String filename) throws IOException {
-        List<List<String>> result = new ArrayList<List<String>>();
+        List<List<String>> result = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(filename));
-        for (String line=br.readLine(); line!=null; line=br.readLine())
+        for (String line = br.readLine(); line != null; line = br.readLine())
             result.add(Arrays.asList(line.split(":")));
         br.close();
         return result;
     }
+
     //TODO Done, I think
-    public Vorlesungsverzeichnis(String fileName) throws TextFileFormatException, IOException{
+    public Vorlesungsverzeichnis(String fileName) throws TextFileFormatException, IOException {
+        this.filename = fileName;
+        this.tmp = load(this.filename);
+        for (int i = 0; i < this.tmp.size(); i++) {
 
-        try {
-            this.filename = fileName;
-            this.tmp = load(this.filename);
-            for (int i = 0; i < this.tmp.size(); i++) {
-                String s = this.tmp.get(i).toString();
-                this.file.add(new Vorlesung(s));
-            }
-            this.vorlesung = file.toString().replaceAll("\\[|\\]", "").split(", |,");
+            String s = this.tmp.get(i).toString();
+            this.file.add(new Vorlesung(s));
 
-        } catch(TextFileFormatException e){
-            System.out.println(e.getMessage());
+
         }
-
+        this.vorlesung = file.toString().replaceAll("[\\[\\]]", "").split(", |,");
     }
 
     public List<String> titles() { //Habe ich ein bisschen schoener gemacht
@@ -50,50 +47,49 @@ public class Vorlesungsverzeichnis {
     }
 
 
-    public Set<String> workaholics() { // TODO Done
-        Set<String> end = new HashSet();
+    public Set<String> workaholics() {
+        Set<String> end = new HashSet<>();
         int leftB, rightB;
-        String dozent = "", duplicate = "";
+        StringBuilder dozent = new StringBuilder();
+        StringBuilder duplicate = new StringBuilder();
 
-        for(int i = 0; i < vorlesung.length; i++) {
+        for (int i = 0; i < vorlesung.length; i++) {
 
             leftB = vorlesung[i].indexOf(":", vorlesung[i].indexOf(":") + 1) + 1;
-            rightB =vorlesung[i].indexOf(":", (vorlesung[i].indexOf(":", leftB + 1)));
-            for(int j = leftB; j < rightB; j++) {
-                dozent += vorlesung[i].charAt(j);
+            rightB = vorlesung[i].indexOf(":", (vorlesung[i].indexOf(":", leftB + 1)));
+            for (int j = leftB; j < rightB; j++) {
+                dozent.append(vorlesung[i].charAt(j));
             }
             // Duplicate
             for (int j = i + 1; j < vorlesung.length; j++) {
                 leftB = vorlesung[j].indexOf(":", vorlesung[j].indexOf(":") + 1) + 1;
                 rightB = vorlesung[j].indexOf(":", (vorlesung[j].indexOf(":", leftB + 1)));
-                for(int k = leftB; k < rightB; k++) {
-                    duplicate += vorlesung[j].charAt(k);
+                for (int k = leftB; k < rightB; k++) {
+                    duplicate.append(vorlesung[j].charAt(k));
                 }
-                if(dozent.equals(duplicate)) {
-                    end.add(duplicate);
+                if (dozent.toString().equals(duplicate.toString())) {
+                    end.add(duplicate.toString());
                 }
-                duplicate = "";
+                duplicate = new StringBuilder();
             }
-            dozent = "";
+            dozent = new StringBuilder();
         }
         return end;
     }
 
     public Map<String, List<String>> groupToTitles() {
         Map<String, List<String>> erg = new HashMap<>();
-        for(Vorlesung zeile : file){
+        for (Vorlesung zeile : file) {
             String gruppe = zeile.getBereich();
             String titel = zeile.getTitel();
-            if(!erg.containsKey(gruppe)){
+            if (!erg.containsKey(gruppe)) {
                 erg.put(gruppe, new ArrayList<>());
             }
-            if(erg.get(gruppe) != null && !erg.get(gruppe).contains(titel)){
+            if (erg.get(gruppe) != null && !erg.get(gruppe).contains(titel)) {
                 erg.get(gruppe).add(titel);
-
             }
 
         }
-
 
 
         return erg;
@@ -101,13 +97,13 @@ public class Vorlesungsverzeichnis {
 
     public Map<String, List<String>> multipleTitles() {
         Map<String, List<String>> erg = new HashMap<>();
-        for(Vorlesung zeile : file){
+        for (Vorlesung zeile : file) {
             String titel = zeile.getTitel();
             String dozent = zeile.getDozent();
-            if(!erg.containsKey(titel)){
+            if (!erg.containsKey(titel)) {
                 erg.put(titel, new ArrayList<>());
             }
-            if(erg.get(titel) != null && !erg.get(titel).contains(dozent)){
+            if (erg.get(titel) != null && !erg.get(titel).contains(dozent)) {
                 erg.get(titel).add(dozent);
 
             }
@@ -117,7 +113,7 @@ public class Vorlesungsverzeichnis {
     }
 
     public List<String> descendingTitles() {
-        List<String> list= new ArrayList();
+        List<String> list = new ArrayList();
 
 
         return list;
