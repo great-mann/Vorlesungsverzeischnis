@@ -53,4 +53,8 @@ public class Vorlesung {
     public String getDozent(){
         return this.dozent;
     }
+
+    public String getAnzahl() {
+        return this.anzahl;
+    }
 }

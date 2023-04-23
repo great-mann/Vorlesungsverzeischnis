@@ -19,7 +19,6 @@ public class Vorlesungsverzeichnis {
         return result;
     }
 
-    //TODO Done, I think
     public Vorlesungsverzeichnis(String fileName) throws TextFileFormatException, IOException {
         this.filename = fileName;
         this.tmp = load(this.filename);
@@ -114,8 +113,20 @@ public class Vorlesungsverzeichnis {
 
     public List<String> descendingTitles() {
         List<String> list = new ArrayList();
+        List<Integer> anzahl = new ArrayList();
 
-
+        for (Vorlesung zeile : file) {
+            anzahl.add(Integer.parseInt(zeile.getAnzahl()));
+        }
+        Collections.sort(anzahl);
+        Collections.reverse(anzahl);
+        for(int i = 0; i < anzahl.size(); i++) {
+            for (Vorlesung zeile : file) {
+                if(Integer.parseInt(zeile.getAnzahl()) == anzahl.get(i)) {
+                    list.add(zeile.getTitel());
+                }
+            }
+        }
         return list;
     }
 
