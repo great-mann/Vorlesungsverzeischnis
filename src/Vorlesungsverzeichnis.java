@@ -26,52 +26,36 @@ public class Vorlesungsverzeichnis {
 
             String s = this.tmp.get(i).toString();
             this.file.add(new Vorlesung(s));
-
-
         }
         this.vorlesung = file.toString().replaceAll("[\\[\\]]", "").split(", |,");
     }
 
-    public List<String> titles() { //Habe ich ein bisschen schoener gemacht
-        List<String> erg = new ArrayList<String>();
+    public List<String> titles() { //Jetzt ists nochj kürzer
+        List<String> title = new ArrayList();
         for (Vorlesung zeile : file) {
-            String[] spalten = zeile.toString().split(":");
-            String title = spalten[1];
-            if (!erg.contains(title)) {
-                erg.add(title);
+            if (!title.contains(zeile.getTitel())) {
+                title.add(zeile.getTitel());
             }
         }
-        Collections.sort(erg);
-        return erg;
+        Collections.sort(title);
+        return title;
     }
 
 
     public Set<String> workaholics() {
         Set<String> end = new HashSet<>();
-        int leftB, rightB;
-        StringBuilder dozent = new StringBuilder();
-        StringBuilder duplicate = new StringBuilder();
 
-        for (int i = 0; i < vorlesung.length; i++) {
-
-            leftB = vorlesung[i].indexOf(":", vorlesung[i].indexOf(":") + 1) + 1;
-            rightB = vorlesung[i].indexOf(":", (vorlesung[i].indexOf(":", leftB + 1)));
-            for (int j = leftB; j < rightB; j++) {
-                dozent.append(vorlesung[i].charAt(j));
-            }
-            // Duplicate
-            for (int j = i + 1; j < vorlesung.length; j++) {
-                leftB = vorlesung[j].indexOf(":", vorlesung[j].indexOf(":") + 1) + 1;
-                rightB = vorlesung[j].indexOf(":", (vorlesung[j].indexOf(":", leftB + 1)));
-                for (int k = leftB; k < rightB; k++) {
-                    duplicate.append(vorlesung[j].charAt(k));
+        for (Vorlesung zeile : file) {
+            Iterator<Vorlesung> iterator = file.iterator();
+            while (iterator.hasNext()) {
+                Vorlesung zeile1 = iterator.next();
+                if (zeile1 == zeile) {
+                    continue; // skip current element
                 }
-                if (dozent.toString().equals(duplicate.toString())) {
-                    end.add(duplicate.toString());
+                if (zeile.getDozent().equals(zeile1.getDozent())) {
+                    end.add(zeile.getDozent());
                 }
-                duplicate = new StringBuilder();
             }
-            dozent = new StringBuilder();
         }
         return end;
     }
@@ -87,10 +71,7 @@ public class Vorlesungsverzeichnis {
             if (erg.get(gruppe) != null && !erg.get(gruppe).contains(titel)) {
                 erg.get(gruppe).add(titel);
             }
-
         }
-
-
         return erg;
     }
 
@@ -106,7 +87,6 @@ public class Vorlesungsverzeichnis {
                 erg.get(titel).add(dozent);
 
             }
-
         }
         return erg;
     }
